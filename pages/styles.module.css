@@ -1,0 +1,77 @@
+/* styles.module.css */
+.toggle-container {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+
+  .username-container {
+    text-align: center;
+  }
+
+  .user-info-container {
+    text-align: center;
+    margin: 20px 0;
+  }
+
+  .review-section {
+    text-align: center;
+    margin: 40px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+
+  .rating {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+  }
+  
+
+.container {
+    text-align: center;
+  }
+  
+  .dark-mode {
+    background-color: #000;
+    color: #fff;
+  }
+
+  
+  .light-mode {
+    background-color: #f5f5f5;
+    color: #333;
+  }
+  
+  .header-title {
+    margin-top: 20px;
+  }
+  
+  .account-info {
+    font-size: 18px;
+    margin: 10px 0;
+  }
+  
+  .action-button {
+    background-color: #3498db;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    margin: 5px;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+  .mode-button {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    margin-top: 10px;
+    border-radius: 5px;
+  }
+  
