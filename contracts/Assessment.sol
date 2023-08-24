@@ -5,12 +5,13 @@ pragma solidity ^0.8.9;
 
 contract Assessment {
 
+//added this struct transaction  for keeping our transaction data
      struct Transaction {
         address account;
         uint256 amount;
         bool isDeposit;
     }
-
+//create a array for transaction
     Transaction[] public transactions;
 
     address payable public owner;
@@ -70,15 +71,18 @@ contract Assessment {
         emit Withdraw(_withdrawAmount);
     }
 
+      // this addition function is for adding the values
       function addition(uint a, uint b) public pure returns(uint) {
         return a + b;
     }
 
+    // made this substraction function is for subtraction
     function subtraction(uint a, uint b) public pure returns(uint) {
         require(a >= b, "Value of a must be greater than or equal to b");
         return a - b;
     }
 
+    //  this function is for multiplication
     function multiplication(uint a, uint b) public pure returns(uint) {
         return a * b;
     }
