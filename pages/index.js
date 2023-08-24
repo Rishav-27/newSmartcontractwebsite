@@ -21,6 +21,22 @@ export default function HomePage() {
   const contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
   const atmABI = atm_abi.abi;
 
+  const getATMContract = () => {
+    const provider = new ethers.providers.Web3Provider(ethWallet);
+    const signer = provider.getSigner();
+    const atmContract = new ethers.Contract(contractAddress, atmABI, signer);
+
+    setATM(atmContract);
+  }
+
+  const [addResult, setAddResult] = useState(undefined);
+  const [subResult, setSubResult] = useState(undefined);
+  const [mulResult, setMulResult] = useState(undefined);
+  const [inputA, setInputA] = useState("");
+  const [inputB, setInputB] = useState("");
+
+ 
+
   const submitReview = () => {
     // Perform actions to submit the review and rating
     console.log("Review:", review);
@@ -65,13 +81,7 @@ export default function HomePage() {
     getATMContract();
   };
 
-  const getATMContract = () => {
-    const provider = new ethers.providers.Web3Provider(ethWallet);
-    const signer = provider.getSigner();
-    const atmContract = new ethers.Contract(contractAddress, atmABI, signer);
-
-    setATM(atmContract);
-  }
+ 
 
   const getBalance = async () => {
     if (atm) {
@@ -111,6 +121,47 @@ export default function HomePage() {
     ]);
   };
 
+  const addition = async () => {
+    if (atm) {
+      const a = parseInt(inputA);
+      const b = parseInt(inputB);
+      try {
+        const answer = await addition(a, b);
+        console.log("Addition result:", answer); // Debugging information
+        setAddResult(answer);
+      } catch (error) {
+        console.error("Error calling addition function:", error);
+      }
+    }
+  };
+  
+
+  const subtraction = async () => {
+    if (atm) {
+      const a = parseInt(inputA);
+      const b = parseInt(inputB);
+      const answer = await atm.substraction(a, b);
+      setSubResult(answer);
+    }
+  };
+
+  const multiplication = async () => {
+    if (atm) {
+      const a = parseInt(inputA);
+      const b = parseInt(inputB);
+      const answer = await atm.multiplication(a, b);
+      setMulResult(answer);
+    }
+  };
+
+  const handleInputAChange = (event) => {
+    setInputA(event.target.value);
+  };
+
+  const handleInputBChange = (event) => {
+    setInputB(event.target.value);
+  };
+
   const initUser = () => {
     if (!ethWallet) {
       return <p>Please install Metamask in order to use this ATM.</p>
@@ -129,7 +180,7 @@ export default function HomePage() {
     }
     const renderTransactionHistory = () => {
       return (
-        <div className="transaction-history">
+        <div className="transaction-history transaction" >
           <h2>Transaction History</h2>
           <ul>
             {transactionHistory.map((transaction, index) => (
@@ -175,9 +226,56 @@ export default function HomePage() {
         {isConnected && (
           <div className="user-info">
           <p>Hello {username}</p>
+          <div className="Calculator">
+          <h2>Calculator</h2>
+          <p style={{ fontFamily: "Sans-serif" }}>
+            Add: {addResult !== undefined ? addResult.toString() : ""}
+          </p>
+          <p style={{ fontFamily: "Sans-serif" }}>
+            Sub: {subResult != undefined ? subResult.toString() : ""}
+          </p>
+          <p style={{ fontFamily: "Sans-serif" }}>
+            Multiply: {mulResult !== undefined ? mulResult.toString() : ""}
+          </p>
+
+          <input
+            type="number"
+            placeholder="Enter value A"
+            value={inputA}
+            onChange={handleInputAChange}
+          />
+          <input
+            type="number"
+            placeholder="Enter value B"
+            value={inputB}
+            onChange={handleInputBChange}
+          />
+
+          <button
+            style={{ backgroundColor: "grey" }}
+            onClick={addition}
+          >
+            Add
+          </button>
+          <button
+            style={{ backgroundColor: "grey" }}
+            onClick={subtraction}
+          >
+            Sub
+          </button>
+          <button
+            style={{ backgroundColor: "grey" }}
+            onClick={multiplication}
+          >
+            Multiply
+          </button>
+        </div> 
         </div>
+        
           
         )}
+        
+        
       </header>
       {/* Username input */}
       {!isConnected && (
@@ -224,7 +322,7 @@ export default function HomePage() {
       </div>
       <style jsx>{`
         body {
-          margin: 0;
+          margin: left 50%;
           padding: 0;
           background-color: ${isDarkMode ? "#333" : "#f5f5f5"};
           color: ${isDarkMode ? "#fff" : "#333"};
@@ -233,11 +331,19 @@ export default function HomePage() {
           text-align: center;
         }
 
+        .Calculator{
+          
+          position: relative;
+          top:200px;
+          right: 500px;
+      
+        }
+
         .toggle-button {
           text-align: right;
           padding: 10px;
         }
-
+        
         .container {
           text-align: center;
           display: flex;
@@ -258,7 +364,10 @@ export default function HomePage() {
         }
 
         .header-title {
-          margin-top: 20px;
+          margin-top: -18%;
+          
+      
+        
         }
 
         .account-info {
@@ -267,7 +376,10 @@ export default function HomePage() {
         }
 
         .user-info {
-          margin-top: 10px;
+          margin-top: -20%;
+    
+          
+
         }
 
         .review-section {
@@ -282,7 +394,10 @@ export default function HomePage() {
         .time {
           margin-top: 20px;
           font-size: 18px;
-        }
+          
+          position: relative;
+          top:-60%;
+          right:30%;        }
 
         .action-button {
           background-color: ${isDarkMode ? "#3498db" : "#333"};
@@ -293,6 +408,7 @@ export default function HomePage() {
           margin: 5px;
           border-radius: 5px;
           font-size: 16px;
+          
         }
 
         .mode-button {
@@ -303,6 +419,8 @@ export default function HomePage() {
           cursor: pointer;
           border-radius: 5px;
         }
+
+               
       `}</style>
     </main>
   );
